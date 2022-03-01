@@ -4,9 +4,13 @@ require_relative "git/version"
 
 module Ruby
   module On
+    # Ruby::On::Git
     module Git
       class Error < StandardError; end
-      # Your code goes here...
+
+      def self.version
+        VERSION
+      end
     end
   end
 end
