@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "git/version"
+Dir[File.join(__dir__, "git/*.rb")].sort.each { |f| require f }
 
 module Ruby
   module On
