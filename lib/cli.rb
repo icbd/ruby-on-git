@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require "Thor"
+require "active_support/all"
+require "thor"
+
+Dir[File.join(__dir__, "command/*.rb")].sort.each { |f| require f }
 
 class Cli < Thor
-  map %w[-v --version] => :version
-  desc "-v, --version", "Show rGit version"
-  def version
-    puts "rGit version #{Ruby::On::Git.version}"
-  end
+  include ::Command::Version
 end

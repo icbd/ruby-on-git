@@ -5,6 +5,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in ruby-on-git.gemspec
 gemspec
 
+gem "activesupport", "~> 6.1"
 gem "rake", "~> 13.0"
 gem "thor", "~> 1.0"
 
