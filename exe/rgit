@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
-require "ruby/on/git"
+require_relative "../lib/ruby/on/git"
 
-require "cli"
+require_relative "../lib/cli"
 
 Cli.start(ARGV)
