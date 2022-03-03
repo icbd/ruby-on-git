@@ -2,7 +2,6 @@
 
 require "active_support/all"
 require "thor"
-require "byebug" if ENV["GEM_ENV"] == "development"
 
 COMMAND_FILES = Dir[File.join(__dir__, "command/*.rb")].sort
 COMMAND_FILES.each { |f| require f }
