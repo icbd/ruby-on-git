@@ -25,8 +25,16 @@ module Ruby
           existing_dir! File.expand_path(@git_object_directory)
         end
 
-        def head_file
+        def head_file_path
           File.expand_path("HEAD", git_dir)
+        end
+
+        def head_file
+          IO.read head_file_path
+        end
+
+        def head_file=(content)
+          IO.write head_file_path, content
         end
 
         private

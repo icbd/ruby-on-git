@@ -28,6 +28,8 @@ module Ruby
         def perform
           init_git_directories
           init_files
+        def repo_existing?
+          File.exist?(head_file_path)
         end
 
         def init_files
@@ -47,8 +49,7 @@ module Ruby
         end
 
         def init_head
-          content = "ref: refs/heads/master\n"
-          IO.write(head_file, content)
+          self.head_file = "ref: refs/heads/master\n"
         end
 
         def init_config
