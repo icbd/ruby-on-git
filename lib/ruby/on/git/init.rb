@@ -26,11 +26,20 @@ module Ruby
         end
 
         def perform
-          init_git_directories
-          init_files
+          if repo_existing?
+            puts "Git repository already exists.\n"
+          else
+            init_git_directories
+            init_files
+            puts "Initialized empty Git repository in #{git_dir}\n"
+          end
+        end
+
         def repo_existing?
           File.exist?(head_file_path)
         end
+
+        private
 
         def init_files
           init_head
@@ -72,8 +81,6 @@ module Ruby
           content = "Unnamed repository; edit this file 'description' to name the repository.\n"
           IO.write(file, content)
         end
-
-        private
 
         # `.git` in path of $GIT_DIR is optional.
         # Go out the `.git` at the end, $GIT_DIR should be an existing directory.
