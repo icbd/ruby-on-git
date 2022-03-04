@@ -19,8 +19,8 @@ module Ruby
       class Init < Base
         attr_reader :directory
 
-        def initialize(directory: ".", **params)
-          super(params)
+        def initialize(directory: ".")
+          super()
 
           @directory = directory
         end

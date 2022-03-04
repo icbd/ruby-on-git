@@ -4,13 +4,9 @@ module Ruby
   module On
     module Git
       class Base
-        def initialize(
-          git_dir: nil,
-          git_object_directory: nil
-        )
-          @git_dir = git_dir || ENV["GIT_DIR"]
-
-          @git_object_directory = git_object_directory || ENV["GIT_OBJECT_DIRECTORY"]
+        def initialize
+          @git_dir = ENV["GIT_DIR"]
+          @git_object_directory = ENV["GIT_OBJECT_DIRECTORY"]
         end
 
         def git_dir
