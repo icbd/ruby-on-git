@@ -47,9 +47,8 @@ module Ruby
         end
 
         def init_head
-          file = File.expand_path("HEAD", git_dir)
           content = "ref: refs/heads/master\n"
-          IO.write(file, content)
+          IO.write(head_file, content)
         end
 
         def init_config

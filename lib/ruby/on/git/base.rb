@@ -25,6 +25,10 @@ module Ruby
           existing_dir! File.expand_path(@git_object_directory)
         end
 
+        def head_file
+          File.expand_path("HEAD", git_dir)
+        end
+
         private
 
         # If the directory does not exist, then create it
