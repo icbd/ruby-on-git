@@ -47,6 +47,7 @@ module Ruby
           init_head
           init_config
           init_description
+          init_info_exclude
         end
 
         def init_git_directories
@@ -54,7 +55,7 @@ module Ruby
             check_or_create_dir File.expand_path(dir, git_objects_dir)
           end
 
-          %w[hooks info/exclude refs/heads refs/tags].each do |dir|
+          %w[hooks info refs/heads refs/tags].each do |dir|
             check_or_create_dir File.expand_path(dir, git_dir)
           end
         end
@@ -81,6 +82,16 @@ module Ruby
         def init_description
           file = File.expand_path("description", git_dir)
           content = "Unnamed repository; edit this file 'description' to name the repository.\n"
+          IO.write(file, content)
+        end
+
+        def init_info_exclude
+          file = File.join(git_dir, "info", "exclude")
+          content = <<~TEXT
+            .DS_Store
+            .byebug_history
+            /**/.idea/*
+          TEXT
           IO.write(file, content)
         end
 
