@@ -44,7 +44,7 @@ module Ruby
         def existing_dir!(dir_path)
           return dir_path if Dir.exist?(dir_path)
 
-          throw Error.new("Cannot access work tree '#{dir_path}'")
+          raise Error, "Cannot access work tree '#{dir_path}'"
         end
       end
     end
