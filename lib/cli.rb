@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "active_support/all"
 require "thor"
 
 COMMAND_FILES = Dir[File.join(__dir__, "command/*.rb")].sort
