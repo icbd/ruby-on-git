@@ -12,4 +12,11 @@ class Cli < Thor
     class_name = File.basename(file, ".rb").classify
     include "::Command::#{class_name}".constantize
   end
+
+rescue Ruby::On::Git::Error => e
+  warn e.message
+  exit 1
+rescue Errno::EACCES => e
+  warn "fatal: #{e.message}"
+  exit 1
 end
