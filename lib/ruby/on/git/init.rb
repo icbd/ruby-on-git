@@ -16,7 +16,9 @@
 module Ruby
   module On
     module Git
-      class Init < Base
+      class Init
+        include Config
+
         attr_reader :directory
 
         def initialize(directory: ".")
@@ -86,20 +88,20 @@ module Ruby
         # Go out the `.git` at the end, $GIT_DIR should be an existing directory.
         def git_dir
           @__git_dir ||=
-            if @git_dir.nil?
+            if ENV["GIT_DIR"].nil?
               check_or_create_dir File.expand_path(".git", directory)
             else
-              existing_dir! @git_dir.delete_suffix(".git")
-              check_or_create_dir @git_dir
+              existing_dir! ENV["GIT_DIR"].delete_suffix(".git")
+              check_or_create_dir ENV["GIT_DIR"]
             end
         end
 
         def git_objects_dir
           @__git_objects_dir ||=
-            if @git_object_directory.nil?
-              check_or_create_dir File.expand_path("objects", git_dir)
+            if ENV["GIT_OBJECT_DIRECTORY"]
+              check_or_create_dir ENV["GIT_OBJECT_DIRECTORY"]
             else
-              check_or_create_dir @git_object_directory
+              check_or_create_dir File.expand_path("objects", git_dir)
             end
         end
       end
