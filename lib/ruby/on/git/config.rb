@@ -3,22 +3,25 @@
 module Ruby
   module On
     module Git
-      class Base
-        def initialize
-          @git_dir = ENV["GIT_DIR"]
-          @git_object_directory = ENV["GIT_OBJECT_DIRECTORY"]
-        end
+      module Config
+        extend self
 
         def git_dir
-          return File.expand_path(".git") if @git_dir.nil?
-
-          existing_dir! File.expand_path(@git_dir)
+          @git_dir ||=
+            if ENV["GIT_DIR"].nil?
+              File.expand_path(".git")
+            else
+              existing_dir! File.expand_path(ENV["GIT_DIR"])
+            end
         end
 
         def git_objects_dir
-          return File.join(git_dir, "objects") if @git_object_directory.nil?
-
-          existing_dir! File.expand_path(@git_object_directory)
+          @git_objects_dir ||=
+            if ENV["GIT_OBJECT_DIRECTORY"].nil?
+              File.join(git_dir, "objects")
+            else
+              existing_dir! File.expand_path(ENV["GIT_OBJECT_DIRECTORY"])
+            end
         end
 
         def head_file_path
