@@ -9,7 +9,12 @@ gem "activesupport", "~> 6.1"
 gem "rake", "~> 13.0"
 gem "thor", "~> 1.0"
 
+group :development do
+  gem "pry"
+  gem "pry-byebug"
+end
+
 group :test do
-  gem "rspec", "~> 3.0"
-  gem "rubocop", "~> 1.21"
+  gem "rspec", "~> 3.0", require: false
+  gem "rubocop", "~> 1.21", require: false
 end

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "tmpdir"
+require "find"
+require "active_support/all"
 require "ruby/on/git"
 
 RSpec.configure do |config|
@@ -11,5 +14,13 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.around(:each) do |example|
+    Dir.mktmpdir do |tmpdir|
+      Dir.chdir tmpdir do
+        example.run
+      end
+    end
   end
 end
