@@ -76,13 +76,13 @@ module Ruby
             	precomposeunicode = true
 
           TEXT
-          IO.write(file, content)
+          IO.binwrite(file, content)
         end
 
         def init_description
           file = File.expand_path("description", git_dir)
           content = "Unnamed repository; edit this file 'description' to name the repository.\n"
-          IO.write(file, content)
+          IO.binwrite(file, content)
         end
 
         def init_info_exclude
@@ -92,7 +92,7 @@ module Ruby
             .byebug_history
             /**/.idea/*
           TEXT
-          IO.write(file, content)
+          IO.binwrite(file, content)
         end
 
         # `.git` in path of $GIT_DIR is optional.

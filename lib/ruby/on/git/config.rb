@@ -29,11 +29,11 @@ module Ruby
         end
 
         def head_file
-          IO.read head_file_path
+          IO.binread head_file_path
         end
 
         def head_file=(content)
-          IO.write head_file_path, content
+          IO.binwrite head_file_path, content
         end
 
         private
