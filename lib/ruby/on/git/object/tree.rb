@@ -14,16 +14,26 @@ module Ruby
 
           def frame_data
             items = []
-            Dir["*"].each do |item|
-              # TODO: dir or file
-              items << file_frame(File.expand_path(item))
+            Dir.glob("*", base: tree_path).each do |item|
+              item = File.expand_path(item, tree_path)
+              if File.directory?(item)
+                items << dir_frame(item)
+              else
+                items << file_frame(item)
+              end
             end
             items.join
           end
 
-          def file_frame(file_path)
-            blob = Blob.Where(file_path)
-            ["100644 #{File.basename(file_path)}", blob.hash_id].pack("Z*H40")
+          def file_frame(path)
+            blob = Blob.Where(path)
+            ["100644 #{File.basename(path)}", blob.hash_id].pack("Z*H40")
+          end
+
+          # TODO: need improve
+          def dir_frame(path)
+            tree = self.class.new(path)
+            ["40000 #{File.basename(path)}", tree.hash_id].pack("Z*H40")
           end
         end
       end
