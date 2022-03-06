@@ -5,15 +5,19 @@ module Ruby
     module Git
       module Object
         class Blob < Base
-          attr_reader :content
+          attr_reader :file_text
 
-          def initialize(content)
+          def initialize(file_text)
             super()
-            @content = content.to_s.force_encoding(Encoding::ASCII_8BIT)
+            @file_text = file_text
           end
 
-          def frame
-            @frame ||= "blob #{content.bytesize}\0#{content}"
+          def self.Where(file_path)
+            new File.read(file_path)
+          end
+
+          def frame_data
+            file_text
           end
         end
       end
