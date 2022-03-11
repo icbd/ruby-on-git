@@ -16,11 +16,12 @@ module Ruby
             items = []
             Dir.glob("*", base: tree_path).each do |item|
               item = File.expand_path(item, tree_path)
-              if File.directory?(item)
-                items << dir_frame(item)
-              else
-                items << file_frame(item)
-              end
+              items <<
+                if File.directory?(item)
+                  dir_frame(item)
+                else
+                  file_frame(item)
+                end
             end
             items.join
           end
