@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
+require_relative "../support/helpers"
+require "digest"
+
 module Ruby
   module On
     module Git
       module Object
         class Base
-          include Config
+          include Support::Helpers
 
-          def initialize
-          end
+          def initialize; end
 
           def hash_id
             @hash_id ||= Digest::SHA1.hexdigest(frame)
