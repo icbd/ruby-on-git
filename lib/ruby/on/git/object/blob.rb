@@ -12,7 +12,7 @@ module Ruby
             @file_text = file_text
           end
 
-          def self.Where(file_path)
+          def self.where(file_path)
             new File.read(file_path)
           end
 
