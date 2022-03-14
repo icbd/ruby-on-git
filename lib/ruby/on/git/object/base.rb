@@ -30,11 +30,21 @@ module Ruby
           end
 
           def save
+            before_save
             compressed_data = Zlib::Deflate.deflate(frame, Zlib::BEST_SPEED)
 
             FileUtils.mkdir object_file_dir unless Dir.exist? object_file_dir
             # TODO: large file may not be written all at once.
             IO.binwrite object_file_path, compressed_data
+            after_save
+          end
+
+          def before_save
+            # hook implemented in subclass
+          end
+
+          def after_save
+            # hook implemented in subclass
           end
 
           def object_file_dir

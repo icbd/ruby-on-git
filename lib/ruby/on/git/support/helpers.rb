@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative "../internal/committer"
+require_relative "../internal/author"
+
 module Ruby
   module On
     module Git
@@ -28,11 +31,30 @@ module Ruby
           end
 
           def head_file
-            IO.binread head_file_path
+            IO.read head_file_path
           end
 
           def head_file=(content)
-            IO.binwrite head_file_path, content
+            IO.write head_file_path, content
+          end
+
+          # Reference: https://git-scm.com/docs/git-commit#_commit_information
+          def committer
+            name = ENV["GIT_COMMITTER_NAME"] || config["user"]["name"]
+            email = ENV["GIT_COMMITTER_EMAIL"] || config["user"]["email"]
+            date = ENV["GIT_COMMITTER_DATE"]&.to_datetime || DateTime.now
+            Internal::Committer.new(name, email, date)
+          end
+
+          def author
+            name = ENV["GIT_AUTHOR_NAME"] || config["user"]["name"]
+            email = ENV["GIT_AUTHOR_EMAIL"] || config["user"]["email"]
+            date = ENV["GIT_AUTHOR_DATE"]&.to_datetime || DateTime.now
+            Internal::Author.new(name, email, date)
+          end
+
+          def config
+            @config ||= Support::Config.new
           end
 
           private
