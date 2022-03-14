@@ -19,6 +19,7 @@ GEM
     diff-lcs (1.4.4)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
+    inifile (3.0.0)
     method_source (1.0.0)
     minitest (5.14.4)
     parallel (1.21.0)
@@ -72,6 +73,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport (~> 6.1)
+  inifile (~> 3.0)
   pry
   pry-byebug
   rake (~> 13.0)
