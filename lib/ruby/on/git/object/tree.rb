@@ -27,7 +27,7 @@ module Ruby
           end
 
           def file_frame(path)
-            blob = Blob.Where(path)
+            blob = Blob.where(path)
             ["100644 #{File.basename(path)}", blob.hash_id].pack("Z*H40")
           end
 
