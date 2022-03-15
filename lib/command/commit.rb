@@ -8,7 +8,7 @@ module Command
       option :message, desc: "Use the given <msg> as the commit message", aliases: :m
       desc "commit", "Record changes to the repository"
       def commit
-        Ruby::On::Git::Object::Commit.new(message: options[:message]).save
+        RubyOnGit::Commit.new(message: options[:message]).save
       end
     end
   end

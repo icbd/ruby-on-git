@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
-require_relative "../lib/ruby/on/git"
+require_relative "../lib/ruby_on_git"
 
 require_relative "../lib/cli"
 

@@ -6,7 +6,7 @@ $LOAD_PATH << File.expand_path("../lib", __dir__)
 
 require "byebug"
 require "bundler/setup"
-require "ruby/on/git"
+require "ruby_on_git"
 
 require "irb"
 IRB.start(__FILE__)

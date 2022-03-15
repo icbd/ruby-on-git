@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Ruby::On::Git::Init do
+RSpec.describe RubyOnGit::Init do
   let(:expected_tree) do
     %w[
       .git
