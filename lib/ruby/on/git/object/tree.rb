@@ -28,6 +28,7 @@ module Ruby
 
           def file_frame(path)
             blob = Blob.new(path)
+            blob.save # TODO: if not saved
             ["100644 #{File.basename(path)}", blob.hash_id].pack("Z*H40")
           end
 
