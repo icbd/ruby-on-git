@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require_relative "../helpers"
+
 module Ruby
   module On
     module Git
       module Object
         class Commit < Base
-          include Support::Helpers
+          include Helpers
 
           def initialize(message: nil)
             super()

@@ -5,11 +5,9 @@ require_relative "./user"
 module Ruby
   module On
     module Git
-      module Internal
-        class Author < User
-          def to_s
-            "author #{super}"
-          end
+      class Author < User
+        def to_s
+          "author #{super}"
         end
       end
     end

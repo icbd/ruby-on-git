@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "thor"
-require_relative "../../ruby/on/git/support/config"
+require_relative "../../ruby/on/git/config"
 
 module Command
   class Config < Thor
@@ -14,7 +14,7 @@ module Command
     option :list, type: :boolean, desc: "list all"
     desc "config --list", "List all variables set in config file, along with their values."
     def list
-      Ruby::On::Git::Support::Config
+      Ruby::On::Git::Config
         .new(file_path: options[:file], config_level: config_level)
         .list
     end
@@ -27,7 +27,7 @@ module Command
     option :worktree, type: :boolean
     desc "config <key>", "Get the value for a given key. Returns error code 1 if the key was not found."
     def fetch(key = nil)
-      config = Ruby::On::Git::Support::Config.new(file_path: options[:file], config_level: config_level)
+      config = Ruby::On::Git::Config.new(file_path: options[:file], config_level: config_level)
       section, key = key.to_s.split(".")
       help and exit(1) if section.nil?
       raise Ruby::On::Git::Error, "key does not contain a section: #{section}" if key.nil?
@@ -40,7 +40,7 @@ module Command
     private
 
     def config_level
-      Ruby::On::Git::Support::Config::GIT_CONFIG_DEFAULT_LEVELS.each do |level|
+      Ruby::On::Git::Config::GIT_CONFIG_DEFAULT_LEVELS.each do |level|
         return level if options[level]
       end
       "default"

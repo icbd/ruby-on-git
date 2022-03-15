@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "./support/helpers"
+require_relative "./helpers"
 
 # .git
 # ├── HEAD
@@ -19,7 +19,7 @@ module Ruby
   module On
     module Git
       class Init
-        include Support::Helpers
+        include Helpers
 
         attr_reader :directory
 

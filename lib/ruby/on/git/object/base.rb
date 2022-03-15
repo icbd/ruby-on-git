@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../support/helpers"
+require_relative "../helpers"
 require "digest"
 
 module Ruby
@@ -8,7 +8,7 @@ module Ruby
     module Git
       module Object
         class Base
-          include Support::Helpers
+          include Helpers
 
           def initialize; end
 
