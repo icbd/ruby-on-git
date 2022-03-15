@@ -27,15 +27,11 @@ module Command
     option :worktree, type: :boolean
     desc "config <key>", "Get the value for a given key. Returns error code 1 if the key was not found."
     def fetch(key = nil)
-      config = Ruby::On::Git::Support::Config
-        .new(file_path: options[:file], config_level: config_level)
+      config = Ruby::On::Git::Support::Config.new(file_path: options[:file], config_level: config_level)
       section, key = key.to_s.split(".")
-      if section.nil? || key.nil?
-        help
-        exit(1)
-      end
-
+      help and exit(1) if section.nil?
       raise Ruby::On::Git::Error, "key does not contain a section: #{section}" if key.nil?
+
       val = config[section][key]
       puts val
       exit(1) if val.nil?

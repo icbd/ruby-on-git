@@ -13,7 +13,7 @@ module Ruby
           end
 
           def after_save
-            update_ref_heads #TODO: fetch branch name
+            update_ref_heads # TODO: fetch branch name
           end
 
           def branch_ref_heads_file_path

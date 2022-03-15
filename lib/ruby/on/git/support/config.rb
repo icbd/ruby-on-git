@@ -13,7 +13,7 @@ module Ruby
         class Config
           include Support::Helpers
 
-          GIT_CONFIG_DEFAULT_LEVELS = %w[system global local worktree]
+          GIT_CONFIG_DEFAULT_LEVELS = %w[system global local worktree].freeze
 
           attr_reader :file_path, :config_level
 
