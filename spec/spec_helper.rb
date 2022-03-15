@@ -2,7 +2,6 @@
 
 require "tmpdir"
 require "find"
-require "active_support/all"
 require "ruby/on/git"
 
 RSpec.configure do |config|

@@ -6,6 +6,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "activesupport", "~> 6.1"
+gem "inifile", "~> 3.0"
 gem "rake", "~> 13.0"
 gem "thor", "~> 1.0"
 

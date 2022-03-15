@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "./support/helpers"
+
 # .git
 # ├── HEAD
 # ├── config
@@ -17,7 +19,7 @@ module Ruby
   module On
     module Git
       class Init
-        include Config
+        include Support::Helpers
 
         attr_reader :directory
 
@@ -76,13 +78,13 @@ module Ruby
             	precomposeunicode = true
 
           TEXT
-          IO.write(file, content)
+          IO.binwrite(file, content)
         end
 
         def init_description
           file = File.expand_path("description", git_dir)
           content = "Unnamed repository; edit this file 'description' to name the repository.\n"
-          IO.write(file, content)
+          IO.binwrite(file, content)
         end
 
         def init_info_exclude
@@ -92,7 +94,7 @@ module Ruby
             .byebug_history
             /**/.idea/*
           TEXT
-          IO.write(file, content)
+          IO.binwrite(file, content)
         end
 
         # `.git` in path of $GIT_DIR is optional.
