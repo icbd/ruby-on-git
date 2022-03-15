@@ -5,19 +5,15 @@ module Ruby
     module Git
       module Object
         class Blob < Base
-          attr_reader :file_text
+          attr_reader :file_path
 
-          def initialize(file_text)
+          def initialize(file_path)
             super()
-            @file_text = file_text
-          end
-
-          def self.where(file_path)
-            new File.read(file_path)
+            @file_path = file_path
           end
 
           def frame_data
-            file_text
+            File.read(file_path)
           end
         end
       end
