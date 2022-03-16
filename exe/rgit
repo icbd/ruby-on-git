@@ -6,4 +6,12 @@ require_relative "../lib/ruby_on_git"
 
 require_relative "../lib/cli"
 
-Cli.start(ARGV)
+begin
+  Cli.start(ARGV)
+rescue RubyOnGit::Error => e
+  warn e.message
+  exit 1
+rescue Errno::EACCES => e
+  warn "fatal: #{e.message}"
+  exit 1
+end

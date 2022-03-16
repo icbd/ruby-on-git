@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "thor"
+require_relative "./ruby_on_git"
 
 COMMAND_FILES = Dir[File.join(__dir__, "command/*.rb")].sort
 COMMAND_FILES.each { |f| require f }
@@ -16,11 +17,4 @@ class Cli < Thor
 
   desc "config [section.key]", "Show config"
   subcommand "config", ::Command::Config
-
-rescue RubyOnGit::Error => e
-  warn e.message
-  exit 1
-rescue Errno::EACCES => e
-  warn "fatal: #{e.message}"
-  exit 1
 end
