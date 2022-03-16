@@ -26,6 +26,7 @@ The usage of `rgit` is the same as `git`, but it is not fully implemented.
 
 Available:
 - init
+- hash-object
 
 Partially available:
 - config
