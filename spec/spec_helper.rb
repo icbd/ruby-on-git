@@ -2,7 +2,7 @@
 
 require "tmpdir"
 require "find"
-require "ruby/on/git"
+require "ruby_on_git"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

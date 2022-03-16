@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/ruby/on/git/version"
+require_relative "lib/ruby_on_git/version"
 
 Gem::Specification.new do |spec|
   spec.name = "ruby-on-git"
-  spec.version = Ruby::On::Git::VERSION
+  spec.version = RubyOnGit::VERSION
   spec.authors = ["Baodong"]
   spec.email = ["wwwicbd@gmail.com"]
 

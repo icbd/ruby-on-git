@@ -17,7 +17,7 @@ class Cli < Thor
   desc "config [section.key]", "Show config"
   subcommand "config", ::Command::Config
 
-rescue Ruby::On::Git::Error => e
+rescue RubyOnGit::Error => e
   warn e.message
   exit 1
 rescue Errno::EACCES => e

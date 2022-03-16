@@ -8,7 +8,7 @@ module Command
       map %w[-v --version] => :version
       desc "-v, --version", "Show rGit version"
       def version
-        puts "rGit version #{Ruby::On::Git.version}"
+        puts "rGit version #{RubyOnGit.version}"
       end
     end
   end

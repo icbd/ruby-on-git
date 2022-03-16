@@ -7,7 +7,7 @@ module Command
     included do
       desc "init [directory]", "Create an empty Git repository or reinitialize an existing one"
       def init(directory = nil)
-        Ruby::On::Git::Init.new(directory: directory).perform
+        RubyOnGit::Init.new(directory: directory).perform
       end
     end
   end
