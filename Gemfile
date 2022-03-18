@@ -18,4 +18,5 @@ end
 group :test do
   gem "rspec", "~> 3.0", require: false
   gem "rubocop", "~> 1.21", require: false
+  gem "rubyzip", "~> 2.3", ">= 2.3.2"
 end
