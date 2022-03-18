@@ -96,12 +96,22 @@ module RubyOnGit
     def pretty_print_tree
       byte_idx = 0
       while byte_idx < frame_data.bytesize
-        auth_and_file_name, hash_id = frame_data[byte_idx..].unpack("Z*H40")
-        auth, file_name = auth_and_file_name.split(" ", 2)
-        type = auth.start_with?("1") ? "blob" : "tree"
-        puts "#{auth}\t#{type}\t#{hash_id} #{file_name}"
-        byte_idx += auth_and_file_name.bytesize + 20 + 1 # hash_id (40/2) and \x00
+        item = frame_data[byte_idx..].unpack("Z*H40")
+        auth, type, hash_id, file_name, offset = pretty_print_tree_parse(item)
+        puts "#{auth} #{type} #{hash_id}\t#{file_name}"
+
+        byte_idx += offset
       end
+    end
+
+    # item: [auth_and_file_name, hash_id]
+    def pretty_print_tree_parse(item)
+      auth_and_file_name, hash_id = item
+      offset = auth_and_file_name.bytesize + 20 + 1 # hash_id (40/2) and \x00
+      auth, file_name = auth_and_file_name.split(" ", 2)
+      type = auth.start_with?("1") ? "blob" : "tree"
+      auth = ("0" * (6 - auth.size)) + auth if auth.size < 6
+      [auth, type, hash_id, file_name, offset]
     end
   end
 end
