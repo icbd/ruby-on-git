@@ -60,6 +60,7 @@ GEM
     rubocop-ast (1.11.0)
       parser (>= 3.0.1.1)
     ruby-progressbar (1.11.0)
+    rubyzip (2.3.2)
     thor (1.1.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -80,6 +81,7 @@ DEPENDENCIES
   rspec (~> 3.0)
   rubocop (~> 1.21)
   ruby-on-git!
+  rubyzip (~> 2.3, >= 2.3.2)
   thor (~> 1.0)
 
 BUNDLED WITH
