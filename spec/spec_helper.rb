@@ -24,3 +24,12 @@ RSpec.configure do |config|
     end
   end
 end
+
+def unzip_project(file_path, destination: nil)
+  destination ||= File.expand_path(".")
+  Zip::File.open(file_path) do |zip_file|
+    zip_file.each do |f|
+      zip_file.extract(f, File.join(destination, f.name))
+    end
+  end
+end
