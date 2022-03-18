@@ -34,25 +34,14 @@ module RubyOnGit
     end
 
     # cat-file -p
+    # pretty_print_blob
+    # pretty_print_tree
+    # pretty_print_commit
     # TODO: Refactor
     def pretty_print
-      case type
-      when "blob"
-        puts frame_data
-      when "commit"
-        frame_data.split("\n").each { |line| puts(line) }
-      when "tree"
-        byte_idx = 0
-        while byte_idx < frame_data.bytesize
-          auth_and_file_name, hash_id = frame_data[byte_idx..].unpack("Z*H40")
-          auth, file_name = auth_and_file_name.split(" ", 2)
-          type = auth.start_with?("1") ? "blob" : "tree"
-          puts "#{auth}\t#{type}\t#{hash_id} #{file_name}"
-          byte_idx += auth_and_file_name.bytesize + 20 + 1 # hash_id (40/2) and \x00
-        end
-      else
-        raise Error, "Should be implemented"
-      end
+      meth = method("pretty_print_#{type}")
+      raise Error, "Type not implemented: #{type}" unless meth
+      meth.call
     end
 
     def save
@@ -91,6 +80,27 @@ module RubyOnGit
 
     def object_file_path
       File.join object_file_dir, hash_id[2..]
+    end
+
+    private
+
+    def pretty_print_blob
+      puts frame_data
+    end
+
+    def pretty_print_commit
+      frame_data.split("\n").each { |line| puts(line) }
+    end
+
+    def pretty_print_tree
+      byte_idx = 0
+      while byte_idx < frame_data.bytesize
+        auth_and_file_name, hash_id = frame_data[byte_idx..].unpack("Z*H40")
+        auth, file_name = auth_and_file_name.split(" ", 2)
+        type = auth.start_with?("1") ? "blob" : "tree"
+        puts "#{auth}\t#{type}\t#{hash_id} #{file_name}"
+        byte_idx += auth_and_file_name.bytesize + 20 + 1 # hash_id (40/2) and \x00
+      end
     end
   end
 end
