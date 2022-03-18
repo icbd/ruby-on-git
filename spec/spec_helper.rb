@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require "tmpdir"
 require "find"
 require "ruby_on_git"
+require "tmpdir"
+require "zip"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
