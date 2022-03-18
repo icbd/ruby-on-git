@@ -41,6 +41,7 @@ module RubyOnGit
     def pretty_print
       meth = method("pretty_print_#{type}")
       raise Error, "Type not implemented: #{type}" unless meth
+
       meth.call
     end
 
