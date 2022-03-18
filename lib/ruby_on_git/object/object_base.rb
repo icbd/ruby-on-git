@@ -14,16 +14,34 @@ module RubyOnGit
     end
 
     def type
-      self.class.name.demodulize.downcase
+      @type ||= self.class.name.demodulize.downcase
+    end
+
+    def size
+      @size ||= encoded_frame_data.bytesize
     end
 
     def frame
-      frame_data.force_encoding(Encoding::ASCII_8BIT)
-      "#{type} #{frame_data.bytesize}\0#{frame_data}"
+      "#{type} #{size}\0#{encoded_frame_data}"
+    end
+
+    def encoded_frame_data
+      @encoded_frame_data ||= frame_data.force_encoding(Encoding::ASCII_8BIT)
     end
 
     def frame_data
-      raise Error, "Should be implemented"
+      @frame_data ||= (raise Error, "Should be implemented")
+    end
+
+    # cat-file -p
+    # pretty_print_blob
+    # pretty_print_tree
+    # pretty_print_commit
+    # TODO: Refactor
+    def pretty_print
+      meth = method("pretty_print_#{type}")
+      raise Error, "Type not implemented: #{type}" unless meth
+      meth.call
     end
 
     def save
@@ -34,6 +52,18 @@ module RubyOnGit
       # TODO: large file may not be written all at once.
       IO.binwrite object_file_path, compressed_data
       after_save
+    end
+
+    # Reference: https://git-scm.com/docs/git-cat-file
+    def cat_file(hash_id)
+      @hash_id = hash_id
+      begin
+        frame = Zlib::Inflate.inflate IO.binread object_file_path
+        type_size, @frame_data = frame.split("\0", 2)
+        @type, @size = type_size.split
+      rescue StandardError => _e
+        raise Error, "invalid object: #{hash_id}"
+      end
     end
 
     def before_save
@@ -50,6 +80,27 @@ module RubyOnGit
 
     def object_file_path
       File.join object_file_dir, hash_id[2..]
+    end
+
+    private
+
+    def pretty_print_blob
+      puts frame_data
+    end
+
+    def pretty_print_commit
+      frame_data.split("\n").each { |line| puts(line) }
+    end
+
+    def pretty_print_tree
+      byte_idx = 0
+      while byte_idx < frame_data.bytesize
+        auth_and_file_name, hash_id = frame_data[byte_idx..].unpack("Z*H40")
+        auth, file_name = auth_and_file_name.split(" ", 2)
+        type = auth.start_with?("1") ? "blob" : "tree"
+        puts "#{auth}\t#{type}\t#{hash_id} #{file_name}"
+        byte_idx += auth_and_file_name.bytesize + 20 + 1 # hash_id (40/2) and \x00
+      end
     end
   end
 end

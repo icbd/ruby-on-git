@@ -28,13 +28,13 @@ module RubyOnGit
     def file_frame(path)
       blob = Blob.new(path)
       blob.save # TODO: if not saved
-      ["100644 #{File.basename(path)}", blob.hash_id].pack("Z*H40")
+      ["100644 #{File.basename(path)}", blob.hash_id].pack("Z*H40") # join by \x00
     end
 
     # TODO: need improve
     def dir_frame(path)
       tree = self.class.new(path)
-      ["40000 #{File.basename(path)}", tree.hash_id].pack("Z*H40")
+      ["40000 #{File.basename(path)}", tree.hash_id].pack("Z*H40") # join by \x00
     end
   end
 end
