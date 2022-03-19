@@ -36,7 +36,7 @@ module Command
             return file_path
           end
         end
-        help and exit(1)
+        help and raise RubyOnGit::Eixt1
       end
     end
   end

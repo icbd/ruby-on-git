@@ -28,8 +28,11 @@ module RubyOnGit
     end
 
     def list
-      git_config_union.each do |k, v|
-        puts "#{k} = #{v}"
+      git_config_levels.each do |level|
+        current_config = git_config_map[level]
+        current_config&.each do |section, key, value|
+          puts "#{section}.#{key} = #{value}"
+        end
       end
     end
 
@@ -56,19 +59,6 @@ module RubyOnGit
         @git_config_map[level] = IniFile.load(level_options[level])
       end
       @git_config_map
-    end
-
-    def git_config_union
-      return @git_config_union if instance_variable_defined?("@git_config_union")
-
-      @git_config_union = {}
-      git_config_levels.each do |level|
-        current_config = git_config_map[level]
-        current_config.each do |section, key, value|
-          @git_config_union["#{section}.#{key}"] = value
-        end
-      end
-      @git_config_union
     end
 
     def level_options

@@ -7,7 +7,9 @@ require "byebug" if ENV["GEM_ENV"] == "development"
 Dir[File.join(__dir__, "ruby_on_git/**/*.rb")].sort.each { |f| require f }
 
 module RubyOnGit
-  class Error < StandardError; end
+  class Eixt1 < StandardError; end
+
+  class Error < Eixt1; end
 
   class GitObjectError < StandardError; end
 end
