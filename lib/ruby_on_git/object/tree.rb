@@ -17,22 +17,16 @@ module RubyOnGit
         item = File.expand_path(item, tree_path)
         items <<
           if File.directory?(item)
-            dir_frame(item)
+            frame_in_tree(item)
           else
-            file_frame(item)
+            Blob.new(item).frame_in_tree
           end
       end
       items.join
     end
 
-    def file_frame(path)
-      blob = Blob.new(path)
-      blob.save # TODO: if not saved
-      ["100644 #{File.basename(path)}", blob.hash_id].pack("Z*H40") # join by \x00
-    end
-
     # TODO: need improve
-    def dir_frame(path)
+    def frame_in_tree(path)
       tree = self.class.new(path)
       ["40000 #{File.basename(path)}", tree.hash_id].pack("Z*H40") # join by \x00
     end
