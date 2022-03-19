@@ -30,12 +30,11 @@ module Command
         end
 
         if options[:stdin]
-          Dir.mktmpdir do |tmpdir|
-            file_path = File.join(tmpdir, "hash_object")
-            IO.binwrite file_path, $stdin.read
-            return file_path
-          end
+          file_path = File.join(Dir.mktmpdir, "hash_object")
+          IO.binwrite file_path, $stdin.read
+          return file_path
         end
+
         help and raise RubyOnGit::Eixt1
       end
     end
