@@ -9,7 +9,7 @@ Dir[File.join(__dir__, "ruby_on_git/**/*.rb")].sort.each { |f| require f }
 module RubyOnGit
   class Eixt1 < StandardError; end
 
-  class Error < StandardError; end
+  class Error < Eixt1; end
 
   class GitObjectError < StandardError; end
 end
