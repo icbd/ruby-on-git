@@ -8,6 +8,11 @@ RSpec.describe "config" do
   let(:user_git_config_file_path) { File.expand_path("~/.gitconfig") }
 
   before do
+    allow(File).to receive(:file?).with("/etc/gitconfig").and_return(false)
+    allow(File).to receive(:file?).with(user_git_config_file_path).and_return(true)
+    allow(File).to receive(:file?).with(File.expand_path(".git/config")).and_return(false)
+    allow(File).to receive(:file?).with(File.expand_path(".git/config.worktree")).and_return(false)
+
     allow(File).to receive(:open).with(user_git_config_file_path, "r").and_yield StringIO.new <<~TEXT
       [user]
         name = #{user_name}
@@ -53,20 +58,20 @@ RSpec.describe "config" do
       expect { subject }.to output("user.name = user_name_for_test\n").to_stdout
     end
 
-    # it "list merged and overridden config" do
-    #   allow(File).to receive(:file?).with("/etc/gitconfig").and_return true
-    #   allow(File).to receive(:open).with("/etc/gitconfig", "r").and_yield StringIO.new <<~TEXT
-    #     [user]
-    #       name = system_user
-    #       email = system@example.com
-    #   TEXT
-    #
-    #   expected_text = <<~TEXT
-    #     user.name = system_user
-    #     user.email = system@example.com
-    #     user.name = #{user_name}
-    #   TEXT
-    #   expect { subject }.to output(expected_text).to_stdout
-    # end
+    it "list merged and overridden config" do
+      allow(File).to receive(:file?).with("/etc/gitconfig").and_return true
+      allow(File).to receive(:open).with("/etc/gitconfig", "r").and_yield StringIO.new <<~TEXT
+        [user]
+          name = system_user
+          email = system@example.com
+      TEXT
+
+      expected_text = <<~TEXT
+        user.name = system_user
+        user.email = system@example.com
+        user.name = #{user_name}
+      TEXT
+      expect { subject }.to output(expected_text).to_stdout
+    end
   end
 end
