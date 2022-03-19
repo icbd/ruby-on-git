@@ -5,14 +5,12 @@ require_relative "../../ruby_on_git/config"
 
 module Command
   class Config < Thor
-    map %w[-l --list] => :list
     option :file, desc: "use given config file"
     option :system, type: :boolean, desc: "use global config file"
     option :global, type: :boolean
     option :local, type: :boolean
     option :worktree, type: :boolean
-    option :list, type: :boolean, desc: "list all"
-    desc "config --list", "List all variables set in config file, along with their values."
+    desc "config list", "List all variables set in config file, along with their values."
     def list
       RubyOnGit::Config
         .new(file_path: options[:file], config_level: config_level)
