@@ -15,6 +15,6 @@ class Cli < Thor
     include "::Command::#{class_name}".constantize
   end
 
-  desc "config [section.key]", "Show config"
+  desc "config (list | <section.key>)", "Show config"
   subcommand "config", ::Command::Config
 end
