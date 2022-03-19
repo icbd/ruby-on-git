@@ -25,16 +25,16 @@ module Command
     option :global, type: :boolean
     option :local, type: :boolean
     option :worktree, type: :boolean
-    desc "config <key>", "Get the value for a given key. Returns error code 1 if the key was not found."
+    desc "config <section.key>", "Get the value for a given key. Returns error code 1 if the key was not found."
     def fetch(key = nil)
       config = RubyOnGit::Config.new(file_path: options[:file], config_level: config_level)
       section, key = key.to_s.split(".")
-      help and exit(1) if section.nil?
+      help and raise RubyOnGit::Eixt1 if section.nil?
       raise RubyOnGit::Error, "key does not contain a section: #{section}" if key.nil?
 
       val = config[section][key]
       puts val
-      exit(1) if val.nil?
+      raise RubyOnGit::Eixt1 if val.nil?
     end
 
     private

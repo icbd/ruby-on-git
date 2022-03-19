@@ -8,6 +8,8 @@ require_relative "../lib/cli"
 
 begin
   Cli.start(ARGV)
+rescue RubyOnGit::Eixt1 => _e
+  exit 1
 rescue RubyOnGit::Error => e
   warn e.message
   exit 1
