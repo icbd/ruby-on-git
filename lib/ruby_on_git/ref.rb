@@ -22,16 +22,18 @@ module RubyOnGit
 
     # "ref: refs/heads/existing\n"
     def self.from_head(ref_content)
-      _, type, name = ref_content.delete_prefix("ref: ").split("/")
+      _, type, name = ref_content.strip.delete_prefix("ref: ").split("/")
       new(type: type, name: name)
     end
 
     def file_path
-      File.join(git_dir, type, name)
+      File.join(git_dir, "refs", type, name)
     end
 
     def hash_id
       get
+    rescue Errno::ENOENT => _e
+      nil # There is no refs/heads/<branch> for first commit.
     end
   end
 end

@@ -20,11 +20,13 @@ module RubyOnGit
     end
 
     def hash_id=(hash_id)
-      case target.class
+      case target
       when ObjectBase
         set hash_id
       when Ref
         target.set hash_id
+      else
+        raise Error, "HEAD target invalid"
       end
     end
 
