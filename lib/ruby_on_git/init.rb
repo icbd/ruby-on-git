@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "./helpers"
+require_relative "./head"
 
 # .git
 # ├── HEAD
@@ -19,12 +20,13 @@ module RubyOnGit
   class Init
     include Helpers
 
-    attr_reader :directory
+    attr_reader :directory, :head
 
     def initialize(directory: ".")
       super()
 
       @directory = directory
+      @head = Head.new(git_dir: git_dir)
     end
 
     def perform
@@ -38,7 +40,7 @@ module RubyOnGit
     end
 
     def repo_existing?
-      File.exist?(head_file_path)
+      File.exist?(head.file_path)
     end
 
     private
@@ -61,7 +63,7 @@ module RubyOnGit
     end
 
     def init_head
-      self.head_file = "ref: refs/heads/#{default_branch}\n"
+      head.set "ref: refs/heads/#{default_branch}\n"
     end
 
     def default_branch

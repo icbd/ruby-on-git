@@ -23,18 +23,6 @@ module RubyOnGit
         end
     end
 
-    def head_file_path
-      File.expand_path("HEAD", git_dir)
-    end
-
-    def head_file
-      IO.read head_file_path
-    end
-
-    def head_file=(content)
-      IO.write head_file_path, content
-    end
-
     # Reference: https://git-scm.com/docs/git-commit#_commit_information
     def committer
       name = ENV["GIT_COMMITTER_NAME"] || config["user"]["name"]
