@@ -40,14 +40,14 @@ RSpec.describe RubyOnGit::Init do
       context "with existing git repository" do
         let(:existing_head) { "ref: refs/heads/existing\n" }
         before do
-          subject.head.set existing_head
+          subject.head_file = existing_head
         end
 
         it "does not overwrite git repository" do
           subject.perform
 
-          expect(subject.head.file_path).to eq File.expand_path(".git/HEAD", directory)
-          expect(subject.head.get).to eq existing_head
+          expect(subject.head_file_path).to eq File.expand_path(".git/HEAD", directory)
+          expect(subject.head_file).to eq existing_head
         end
       end
 
@@ -75,7 +75,7 @@ RSpec.describe RubyOnGit::Init do
       it "creates new git repository" do
         subject.perform
 
-        expect(subject.head.get.present?).to be_truthy
+        expect(subject.head_file.present?).to be_truthy
         expect(subject.send(:git_dir)).to eq git_dir
         expect(subject.send(:git_objects_dir)).to eq git_object_directory
       end
@@ -101,7 +101,7 @@ RSpec.describe RubyOnGit::Init do
       it "creates objects folder and creates new git repository" do
         subject.perform
 
-        expect(subject.head.get.present?).to be_truthy
+        expect(subject.head_file.present?).to be_truthy
         expect(subject.send(:git_objects_dir)).to eq git_object_directory
       end
     end

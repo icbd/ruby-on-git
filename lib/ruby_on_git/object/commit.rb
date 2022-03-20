@@ -6,12 +6,9 @@ module RubyOnGit
   class Commit < ObjectBase
     include Helpers
 
-    attr_reader :head
-
     def initialize(message: nil)
       super()
       @message = message
-      @head = head
     end
 
     def after_save
@@ -19,7 +16,7 @@ module RubyOnGit
     end
 
     def branch_ref_heads_file_path
-      ref = head.get.delete_prefix("ref: ").strip
+      ref = head_file.delete_prefix("ref: ").strip
       File.join(git_dir, ref)
     end
 
