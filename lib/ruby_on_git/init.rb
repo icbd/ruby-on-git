@@ -61,7 +61,11 @@ module RubyOnGit
     end
 
     def init_head
-      self.head_file = "ref: refs/heads/master\n"
+      self.head_file = "ref: refs/heads/#{default_branch}\n"
+    end
+
+    def default_branch
+      config["init"]["defaultBranch"] || "master"
     end
 
     def init_config
