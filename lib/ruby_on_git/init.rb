@@ -20,12 +20,13 @@ module RubyOnGit
   class Init
     include Helpers
 
-    attr_reader :head
+    attr_reader :directory, :head
 
-    def initialize
+    def initialize(directory: ".")
       super()
 
-      @head = Head.new
+      @directory = directory
+      @head = Head.new(git_dir: git_dir)
     end
 
     def perform
@@ -52,7 +53,6 @@ module RubyOnGit
     end
 
     def init_git_directories
-      check_or_create_dir git_dir
       %w[pack info].each do |dir|
         check_or_create_dir File.expand_path(dir, git_objects_dir)
       end
@@ -99,6 +99,27 @@ module RubyOnGit
         /**/.idea/*
       TEXT
       IO.binwrite(file, content)
+    end
+
+    # `.git` in path of $GIT_DIR is optional.
+    # Go out the `.git` at the end, $GIT_DIR should be an existing directory.
+    def git_dir
+      @__git_dir ||=
+        if ENV["GIT_DIR"].nil?
+          check_or_create_dir File.expand_path(".git", directory)
+        else
+          existing_dir! ENV["GIT_DIR"].delete_suffix(".git")
+          check_or_create_dir ENV["GIT_DIR"]
+        end
+    end
+
+    def git_objects_dir
+      @__git_objects_dir ||=
+        if ENV["GIT_OBJECT_DIRECTORY"]
+          check_or_create_dir ENV["GIT_OBJECT_DIRECTORY"]
+        else
+          check_or_create_dir File.expand_path("objects", git_dir)
+        end
     end
   end
 end
