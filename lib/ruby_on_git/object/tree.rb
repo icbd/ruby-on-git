@@ -28,6 +28,7 @@ module RubyOnGit
     # TODO: need improve
     def frame_in_tree(path)
       tree = self.class.new(path)
+      tree.save
       ["40000 #{File.basename(path)}", tree.hash_id].pack("Z*H40") # join by \x00
     end
   end
