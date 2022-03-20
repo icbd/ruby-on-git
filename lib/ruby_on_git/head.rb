@@ -7,10 +7,6 @@ module RubyOnGit
   class Head
     include Helpers
 
-    def initialize(git_dir: nil)
-      @git_dir = git_dir
-    end
-
     def get
       IO.read file_path
     end
@@ -21,11 +17,6 @@ module RubyOnGit
 
     def file_path
       File.expand_path("HEAD", git_dir)
-    end
-
-    # init has a separate implementation of `git_dir`
-    def git_dir
-      @git_dir || super
     end
   end
 end
