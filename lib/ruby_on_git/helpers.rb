@@ -5,6 +5,8 @@ require_relative "./user/author"
 
 module RubyOnGit
   module Helpers
+    HASH_ID_LENGTH = 40
+
     def git_dir
       @git_dir ||=
         if ENV["GIT_DIR"].nil?
@@ -21,18 +23,6 @@ module RubyOnGit
         else
           existing_dir! File.expand_path(ENV["GIT_OBJECT_DIRECTORY"])
         end
-    end
-
-    def head_file_path
-      File.expand_path("HEAD", git_dir)
-    end
-
-    def head_file
-      IO.read head_file_path
-    end
-
-    def head_file=(content)
-      IO.write head_file_path, content
     end
 
     # Reference: https://git-scm.com/docs/git-commit#_commit_information
