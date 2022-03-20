@@ -1,31 +1,30 @@
 # frozen_string_literal: true
 
 require_relative "./object_base"
+require_relative "../head"
 
 module RubyOnGit
   class Commit < ObjectBase
     include Helpers
 
+    attr_reader :head
+
     def initialize(message: nil)
       super()
       @message = message
+      @head = Head.new
     end
 
     def after_save
       update_ref_heads # TODO: fetch branch name
     end
 
-    def branch_ref_heads_file_path
-      ref = head_file.delete_prefix("ref: ").strip
-      File.join(git_dir, ref)
-    end
-
     def update_ref_heads
-      IO.write branch_ref_heads_file_path, hash_id
+      head.hash_id = hash_id
     end
 
     def parent_hash_id
-      IO.read(branch_ref_heads_file_path).strip if File.exist?(branch_ref_heads_file_path)
+      head.hash_id
     end
 
     # use -m "first";

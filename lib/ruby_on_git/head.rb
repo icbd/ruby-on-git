@@ -25,8 +25,6 @@ module RubyOnGit
         set hash_id
       when Ref
         target.set hash_id
-      else
-        # nothing
       end
     end
 

@@ -2,6 +2,8 @@
 
 require_relative "./helpers"
 
+# Don't require "head".
+
 # .git
 # ├── HEAD
 # ├── config
@@ -40,8 +42,6 @@ module RubyOnGit
     def repo_existing?
       File.exist?(head_file_path)
     end
-
-    private
 
     def init_files
       init_head
@@ -118,6 +118,18 @@ module RubyOnGit
         else
           check_or_create_dir File.expand_path("objects", git_dir)
         end
+    end
+
+    def head_file_path
+      File.expand_path("HEAD", git_dir)
+    end
+
+    def head_file
+      IO.read head_file_path
+    end
+
+    def head_file=(content)
+      IO.write head_file_path, content
     end
   end
 end
