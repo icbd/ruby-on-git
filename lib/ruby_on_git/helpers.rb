@@ -5,6 +5,8 @@ require_relative "./user/author"
 
 module RubyOnGit
   module Helpers
+    HASH_ID_LENGTH = 40
+
     def git_dir
       @git_dir ||=
         if ENV["GIT_DIR"].nil?

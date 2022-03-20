@@ -7,7 +7,9 @@ module RubyOnGit
   class ObjectBase
     include Helpers
 
-    def initialize; end
+    def initialize(hash_id: nil)
+      @hash_id = hash_id if hash_id
+    end
 
     def hash_id
       @hash_id ||= Digest::SHA1.hexdigest(frame)
