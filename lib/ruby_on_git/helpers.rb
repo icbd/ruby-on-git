@@ -19,7 +19,7 @@ module RubyOnGit
         if ENV["GIT_OBJECT_DIRECTORY"].nil?
           File.join(git_dir, "objects")
         else
-          existing_dir! File.expand_path(ENV["GIT_OBJECT_DIRECTORY"])
+          File.expand_path(ENV["GIT_OBJECT_DIRECTORY"])
         end
     end
 
