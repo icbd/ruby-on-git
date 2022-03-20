@@ -21,7 +21,9 @@ RSpec.describe RubyOnGit::Init do
     ].freeze
   end
 
-  subject { described_class.new }
+  let(:directory) { nil }
+
+  subject { described_class.new(directory: directory) }
 
   context "without any ENV variables" do
     context "without directory" do
@@ -33,17 +35,18 @@ RSpec.describe RubyOnGit::Init do
     end
 
     context "with directory" do
+      let(:directory) { "example_dir" }
+
       context "with existing git repository" do
         let(:existing_head) { "ref: refs/heads/existing\n" }
         before do
-          FileUtils.mkdir_p File.dirname(subject.head.file_path)
-          IO.write subject.head.file_path, existing_head
+          subject.head.set existing_head
         end
 
         it "does not overwrite git repository" do
           subject.perform
 
-          expect(subject.head.file_path).to eq File.expand_path(".git/HEAD")
+          expect(subject.head.file_path).to eq File.expand_path(".git/HEAD", directory)
           expect(subject.head.get).to eq existing_head
         end
       end
@@ -52,6 +55,7 @@ RSpec.describe RubyOnGit::Init do
         it "creates new git repository" do
           subject.perform
 
+          FileUtils.cd File.expand_path(directory)
           expect(Find.find(".git").to_a.sort).to eq expected_tree
         end
       end
