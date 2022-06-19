@@ -22,7 +22,7 @@ module RubyOnGit
     end
 
     def frame_in_tree
-      save # TODO: if not saved
+      save
       ["#{file_mode_code} #{File.basename(file_path)}", hash_id].pack("Z*H40") # join by \x00
     end
 
