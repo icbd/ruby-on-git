@@ -15,6 +15,10 @@ module RubyOnGit
       @hash_id ||= Digest::SHA1.hexdigest(frame)
     end
 
+    def exist?
+      File.exist? object_file_path
+    end
+
     def type
       @type ||= self.class.name.demodulize.downcase
     end
@@ -48,6 +52,8 @@ module RubyOnGit
     end
 
     def save
+      return if exist?
+
       before_save
       compressed_data = Zlib::Deflate.deflate(frame, Zlib::BEST_SPEED)
 
